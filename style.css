@@ -10,6 +10,11 @@
 .grid div {
   height: 20px;
   width: 20px;
-  background-color: red;
+  /* background-color: red; */
   display:block;
+}
+
+
+.tetramino{
+  background-color: blue;
 }
