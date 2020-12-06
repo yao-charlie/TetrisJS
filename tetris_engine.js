@@ -79,11 +79,36 @@ function draw(){
 //undraw Tetramino
 function undraw(){
   current.forEach(index=>{
-    squares[currentPostion+index].classList.remove('tetramino')
+    squares[currentPosition+index].classList.remove('tetramino')
   })
 }
 
 draw()
+
+// tetramino falling
+
+var interval = 500; //timer in ms to start
+timer = setInterval(moveDown, interval)
+
+function moveDown(){
+  undraw()
+  currentPosition += width
+  draw()
+  freeze()
+}
+
+
+//freeze tetramino
+function freeze(){
+  if(current.some( index=> squares[currentPosition + index + width].classList.contains('taken'))){
+    current.forEach(index=> squares[currentPosition + index].classList.add('taken'))
+    //spawn a new Tetramino
+    random = Math.floor(Math.random()*Tetraminoes.length)
+    current = Tetraminoes[random][currentRotation]
+    currentPosition = 4
+    draw()
+  }
+}
 
 
 

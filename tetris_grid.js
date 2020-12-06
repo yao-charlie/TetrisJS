@@ -18,7 +18,12 @@ var j;
 
 
 for (i = 0; i < rows*columns; i++){
-  codeBlock = codeBlock + "<div></div>";
+  codeBlock += "<div></div>";
 };
+
+for (j=0;j<columns; j++){
+  codeBlock += "<div class = 'taken'></div>"
+
+}
 
 document.getElementById("tetris_grid").innerHTML = codeBlock;
