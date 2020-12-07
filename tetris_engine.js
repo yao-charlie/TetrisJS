@@ -12,7 +12,7 @@ const width = 10
 //TODO: Check centre of rotation issues for L, R, T
 const LTetramino = [
     [0, 1, width+1, width*2+1],
-    [2, width, width+1, width+2],
+    [width+2, width*2, width*2+1, width*2+2],
     [1, width+1, width*2+1, width*2+2],
     [width, width+1, width+2, width*2]
 ]
@@ -22,25 +22,27 @@ const RTetratmino = [
     [1, width+1, width*2+1, 2],
     [width, width+1, width+2, width*2+2],
     [1, width+1, width*2+1, width*2],
-    [0, width, width+1, width+2]
+    [width, width*2, width*2+1, width*2+2]
     // [width, width+1, width]
   ]
 
   const TTetratmino = [
-    [0, 1, 2, width +1],
-    [2, width +1, width +2, width*2+2],
-    [width +1, width*2, width *2_1, width*2+2],
+    [width, width+1, width+2, width*2+1],
+    [2, width+1, width+2, width*2+2],
+    [width+1, width*2, width *2+1, width*2+2],
     [0, width, width+1, width *2]
   ]
 
 const ZTetramino = [
-    [0, 1, width+1, width +2],
+    [width, width+1, width*2+1, width*2+2],
     [1, width, width+1, width*2],
-    [0, 1, width+1, width +2],
+    [width, width+1, width*2+1, width*2+2],
     [1, width+1, width+2, width*2+2]
   ]
 const STetramino = [
-    [1, 2, width, width+1],
+    [width+1, width+2, width*2, width*2+1],
+    [1, width, width+1, width*2],
+    [width+1, width+2, width*2, width*2+1],
     [1, width, width+1, width*2]
   ]
 
@@ -52,10 +54,10 @@ const OTetramino = [
   ]
 
 const ITetramino = [
-    [0, 1, 2, 3],
-    [0, width, width*2, width *3],
-    [0, 1, 2, 3],
-    [0, width, width*2, width *3]
+    [1, width+1, width*2+1, width *3+1],
+    [width*4, width*4+1, width*4+2, width*4+3],
+    [1, width+1, width*2+1, width *3+1],
+    [width*4, width*4+1, width*4+2, width*4+3]
   ]
 
 const Tetraminoes = [LTetramino, RTetratmino, TTetratmino, ZTetramino, STetramino, OTetramino, ITetramino]
@@ -106,7 +108,7 @@ function moveDown(){
     setTimeout(()=>{
       freeze()
       timer=setInterval(moveDown,interval)
-    },interval*2)
+    },interval*2) //times 2 for more 'natural' feel
   }
 
   // freeze()deprecated. Above added to delay freeze to allow 'final' movements before freezing.
@@ -114,16 +116,23 @@ function moveDown(){
   document.addEventListener('keydown',control)
 }
 
-//About to collide check
+//collision detection
 
+//bottom/pieces
 function freezeCheck(){
   return currentPiece.some( index=> squares[currentPosition + index + width].classList.contains('taken'))
+}
+
+//not used yet but will need for rotating. Bugged
+function wallCheck(){
+  if(currentPiece.some(index => (currentPosition + index) % width === width - 1)) return True
+  if(currentPiece.some(index => (currentPosition + index) % width === 0)) return True
+  return False
 }
 
 // freeze tetramino
 function freeze(){
   if(freezeCheck()){
-
 
     currentPiece.forEach(index=> squares[currentPosition + index].classList.add('taken'))
     //spawn a new Tetramino
@@ -135,22 +144,6 @@ function freeze(){
 }
 
 
-// function freeze(){
-//   if(currentPiece.some( index=> squares[currentPosition + index + width].classList.contains('taken'))){
-//     clearInterval(timer)
-//     setTimeout( ()=>{
-//       timer = setInterval(moveDown, interval)
-//       currentPiece.forEach(index=> squares[currentPosition + index].classList.add('taken'))
-//
-//       //spawn a new Tetramino
-//       random = Math.floor(Math.random()*Tetraminoes.length)
-//       currentPiece = Tetraminoes[random][currentRotation], interval
-//       currentPosition = 4
-//       draw()
-//
-//     }, 500)
-//   }
-// }
 
 //moving Tetramino
 
@@ -173,19 +166,27 @@ function moveLeft() {
   if(isAtLeftEdge) return
   if(currentPiece.some(index => squares[currentPosition + index-1].classList.contains('taken'))) return
   undraw()
-  currentPosition-=1
+  currentPosition--
   draw()
 }
 
 function moveRight() {
-  const isAtRightEdge = currentPiece.some(index => (currentPosition + index) % width === 9)
+  const isAtRightEdge = currentPiece.some(index => (currentPosition + index) % width === width - 1)
   if(isAtRightEdge) return
   if(currentPiece.some(index => squares[currentPosition + index+1].classList.contains('taken'))) return
   undraw()
-  currentPosition += 1
+  currentPosition++
   draw()
 }
 
+
+function rotate(){
+  currentRotation++
+  currentRotation%=4
+  undraw()
+  currentPiece = Tetraminoes[random][currentRotation]
+  draw()
+  }
 
 //keys to movement
 
@@ -199,7 +200,9 @@ function control(key){
   if (key.keyCode === 40){
     if(!freezeCheck()) moveDown() //freezeCheck() needed to prevent move firing before the moveDown freezeCheck fires.
   }
-
+  if (key.keyCode === 38){
+    if(!freezeCheck()) rotate()
+  }
 }
 
 document.addEventListener('keydown', control)
