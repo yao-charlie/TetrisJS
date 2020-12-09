@@ -160,6 +160,29 @@ function leftSide(){
 //
 // }
 
+function scoreUp(){
+  // let checkIndex = currentPosition - currentPosition%width
+  // for (i=checkIndex; (i < width*height) || (i < (checkIndex + 6*width)); i+=width){
+  for (i=0; i < width*height-1; i+=width){
+    var row = []
+    for (j=0; j<width; j++) {
+      row.push(i+j)
+    }
+
+    if(row.every(index => squares[index].classList.contains('taken'))){
+      score += 1
+      row.forEach(index=>{
+        squares[index].classList.remove('taken')
+        squares[index].classList.remove('tetramino')
+        squares[index].style.backgroundColor=''
+      })
+      const squaresRemoved = squares.splice(i, width)
+      squares = squaresRemoved.concat(squares)
+      squares.forEach(cell=>grid.appendChild(cell))
+      console.log("score is " + score)
+    }
+  }
+}
 
 
 
@@ -169,9 +192,9 @@ function leftSide(){
 function freeze(){
   if(freezeCheck()){
 
-    currentPiece.forEach(index=> squares[currentPosition + index].classList.add('taken'))
+    currentPiece.forEach(index => squares[currentPosition + index].classList.add('taken'))
 
-    // scoreUp()
+    scoreUp()
     //spawn a new Tetramino
     random = Math.floor(Math.random()*Tetraminoes.length)
     currentPiece = Tetraminoes[random][currentRotation]
