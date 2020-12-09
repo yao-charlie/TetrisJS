@@ -163,14 +163,15 @@ function leftSide(){
 function scoreUp(){
   // let checkIndex = currentPosition - currentPosition%width
   // for (i=checkIndex; (i < width*height) || (i < (checkIndex + 6*width)); i+=width){
-  for (i=0; i < width*height-1; i+=width){
+  let moveScore = 0
+  for (i=0; i < width*height; i+=width){
     var row = []
     for (j=0; j<width; j++) {
       row.push(i+j)
     }
 
     if(row.every(index => squares[index].classList.contains('taken'))){
-      score += 1
+      moveScore += 1
       row.forEach(index=>{
         squares[index].classList.remove('taken')
         squares[index].classList.remove('tetramino')
@@ -179,9 +180,11 @@ function scoreUp(){
       const squaresRemoved = squares.splice(i, width)
       squares = squaresRemoved.concat(squares)
       squares.forEach(cell=>grid.appendChild(cell))
-      console.log("score is " + score)
+
     }
   }
+  score = score + moveScore ** 2
+  console.log("score is " + score)
 }
 
 
@@ -276,15 +279,12 @@ function moveRight() {
 //no kick
 function rotate(){
   placeholderPiece = currentPiece
-  console.log(currentRotation)
   currentRotation++
-  console.log(currentRotation)
   currentRotation%=4
   undraw()
   currentPiece = Tetraminoes[random][currentRotation]
   if(rightCheck() && leftCheck() ){
     currentRotation--
-    console.log("hit side and " + currentRotation)
     currentRotation+=width
     currentRotation%=4
     currentPiece = placeholderPiece
