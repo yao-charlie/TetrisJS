@@ -119,15 +119,15 @@ function rightCheck(){
   return false
 }
 
-// function rightSide(){
-//   if(currentPiece.every(index => (currentPosition + index) % width > 5) return true
-//   return false
-// }
-//
-// function leftSide(){
-//   if(currentPiece.every(index => (currentPosition + index) % width < 5) return true
-//   return false
-// }
+function rightSide(){
+  if(currentPiece.every(index => (currentPosition + index) % width > 5)) return true
+  return false
+}
+
+function leftSide(){
+  if(currentPiece.every(index => (currentPosition + index) % width < 4)) return true
+  return false
+}
 
 //Broken code to be revisited:
 
