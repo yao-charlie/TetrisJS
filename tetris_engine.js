@@ -1,11 +1,14 @@
 document.addEventListener('DOMContentLoaded', ()=>{
 const grid = document.querySelector('.grid')
 let squares = Array.from(document.querySelectorAll('.grid div'))
+let nextSquares = Array.from(document.querySelectorAll('.nextTetra div'))
 
 const displayScore = document.querySelector('#score')
 const startButton = document.querySelector('#start__button')
+const displaylastScored = document.querySelector('#last__score')
 const width = 10
 const height = 20
+var gameTimer = null
 var score = 0
 
 
@@ -20,7 +23,6 @@ const LTetramino = [
     [0, width, width*2, width*2+1],
     [width, width+1, width+2, width*2]
 ]
-
 //'CW' L
 const RTetratmino = [
     [1, width+1, width*2+1, 2],
@@ -29,14 +31,12 @@ const RTetratmino = [
     [width, width*2, width*2+1, width*2+2]
     // [width, width+1, width]
   ]
-
 const TTetratmino = [
     [width, width+1, width+2, width*2+1],
     [2, width+1, width+2, width*2+2],
     [width+1, width*2, width *2+1, width*2+2],
     [0, width, width+1, width *2]
   ]
-
 const ZTetramino = [
     [width, width+1, width*2+1, width*2+2],
     [1, width, width+1, width*2],
@@ -49,22 +49,21 @@ const STetramino = [
     [width+1, width+2, width*2, width*2+1],
     [0, width, width+1, width*2+1]
   ]
-
 const OTetramino = [
     [0,1,width, width+1],
     [0,1,width, width+1],
     [0,1,width, width+1],
     [0,1,width, width+1]
   ]
-
 const ITetramino = [
     [0, width, width*2, width*3],
     [width*4, width*4+1, width*4+2, width*4+3],
     [0, width, width*2, width*3],
     [width*4, width*4+1, width*4+2, width*4+3]
   ]
-
 const tetraminoes = [LTetramino, RTetratmino, TTetratmino, ZTetramino, STetramino, OTetramino, ITetramino]
+
+const nextRotation = 0
 
 //Spawn position
 let currentPosition = 4
@@ -72,8 +71,34 @@ let currentPosition = 4
 let currentRotation = 0
 
 //randolmly select Tetramino
-let random = Math.floor(Math.random()*tetraminoes.length)
-let currentPiece = tetraminoes[random][currentRotation]
+let nextRandom = Math.floor(Math.random()*tetraminoes.length)
+var random = nextRandom
+// let currentPiece = tetraminoes[random][currentRotation]
+
+
+let currentPiece = null
+let nextPiece = tetraminoes[nextRandom][currentRotation]
+// currentPiece = nextPiece
+assignNextPiece()
+//
+// var nextPiece = null
+
+function assignNextPiece(){
+  undrawNextPiece()
+  currentPiece = nextPiece
+  random = nextRandom
+  nextRandom = Math.floor(Math.random()*tetraminoes.length)
+  nextPiece = tetraminoes[nextRandom][nextRotation]
+  console.log(nextPiece)
+  drawNextPiece()
+}
+
+function drawNextPiece(){
+if(gameTimer){nextPiece.forEach((index)=>{nextSquares[index].classList.add('tetramino')})}
+}
+function undrawNextPiece(){
+  nextPiece.forEach((index)=>{nextSquares[index].classList.remove('tetramino')})
+}
 
 //draw Tetramino as a map to CSS style.
 function draw(){
@@ -90,12 +115,12 @@ function undraw(){
 }
 
 //initialize
-draw()
+
 
 // tetramino falling
 
 var interval = 500 //gameTimer in ms to start
-var gameTimer = setInterval(moveDown, interval)
+// var gameTimer = setInterval(moveDown, interval)
 
 
 
@@ -184,13 +209,16 @@ function completedLine(){
 
     }
   }
-  score = score + moveScore**2*10
+  score+=1
+  moveScore = moveScore**2*10
+  displaylastScored.innerHTML = moveScore + 1
+  score = score + moveScore
 
 }
 
 function gameOver(){
   random = Math.floor(Math.random()*tetraminoes.length)
-  currentPiece = tetraminoes[random][currentRotation]
+  assignNextPiece()
   currentPosition = 4
   if(currentPiece.some( index => squares[currentPosition + index].classList.contains('taken'))){
     clearInterval(gameTimer)
@@ -213,7 +241,7 @@ function freeze(){
 
     completedLine()
     //spawn a new Tetramino
-    score+=1
+
     displayScore.innerHTML = score
     return gameOver()
     // random = Math.floor(Math.random()*tetraminoes.length)
@@ -240,7 +268,7 @@ function freeze(){
 // }
 
 function moveDown(){
-  document.removeEventListener('keydown',control)
+  // document.removeEventListener('keydown',control)
   if(freezeCheck()){
     clearInterval(gameTimer)
     setTimeout(()=>{
@@ -254,7 +282,7 @@ function moveDown(){
   currentPosition += width
   draw()
   //might use for moveLeft/Right but seems to still be bugged.
-  document.addEventListener('keydown',control)
+  // document.addEventListener('keydown',control)
 }
 
 function moveLeft() {
@@ -327,6 +355,18 @@ function control(key){
 
 document.addEventListener('keydown', control)
 
+startButton.addEventListener('click', ()=>{
 
+  if(gameTimer){
+    clearInterval(gameTimer)
+    gameTimer = null
+  }
+
+  else{
+    draw();
+    gameTimer = setInterval(moveDown, interval)
+    drawNextPiece()
+  }
+})
 
 })

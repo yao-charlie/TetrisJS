@@ -1,3 +1,11 @@
+.play__area{
+  display: grid;
+  grid-template-columns: 200px auto;
+}
+.play__area div{
+
+}
+
 .grid {
   width: 200px;
   height: 400px;
@@ -17,4 +25,21 @@
 
 .tetramino{
   background-color: blue;
+}
+
+
+.nextTetra{
+  width: 200px;
+  height: 80px;
+  display: flex;
+  flex-wrap: wrap;
+  background-color: white;
+}
+
+
+.nextTetra div {
+  height: 20px;
+  width: 20px;
+  /* background-color: red; */
+  display:block;
 }

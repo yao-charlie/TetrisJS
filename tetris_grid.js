@@ -1,5 +1,6 @@
 
 var codeBlock = "";
+var pieceBlock = "";
 var rows = 20;
 var columns = 10;
 var i;
@@ -26,4 +27,9 @@ for (j=0;j<columns; j++){
 
 }
 
-document.getElementById("tetris_grid").innerHTML = codeBlock;
+for (k=0; k<columns*4; k++){
+  pieceBlock += "<div></div>"
+}
+
+document.getElementById("tetris__grid").innerHTML = codeBlock;
+document.getElementById("next__grid").innerHTML = pieceBlock;

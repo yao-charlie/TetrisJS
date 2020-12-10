@@ -14,13 +14,18 @@
 
 
   <h3> Score: <span id = "score"> 0 </span> </h3>
+  <h3> Last Scored: <span id = "last__score"> 0 </span> </h3>
   <button id="start__button"> Start/Pause </button>
 
-    <div id = "tetris_grid" class = "grid">
-      <!-- Script to create the grid -->
-    <script src="tetris_grid.js"></script>
-    </div>
+  <div class = "play__area">
+    <div id = "tetris__grid" class = "grid"></div>
+    <div id = "next__grid" class = "nextTetra"></div>
+  </div>
+
+
 
 
   </body>
+  <!-- Script to create the grids -->
+  <script src="tetris_grid.js"></script>
 </html>
