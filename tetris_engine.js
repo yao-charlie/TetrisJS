@@ -2,14 +2,14 @@ document.addEventListener('DOMContentLoaded', ()=>{
 const grid = document.querySelector('.grid')
 let squares = Array.from(document.querySelectorAll('.grid div'))
 
-const DisplayScore = document.querySelector('#score')
-const StartButton = document.querySelector('#start__button')
+const displayScore = document.querySelector('#score')
+const startButton = document.querySelector('#start__button')
 const width = 10
 const height = 20
 var score = 0
 
 
-//Tetraminoes
+//tetraminoes
 // N.B. - linear algebra could be used to rotate matricies instead
 
 //TODO: Check centre of rotation issues for L, R, T
@@ -64,7 +64,7 @@ const ITetramino = [
     [width*4, width*4+1, width*4+2, width*4+3]
   ]
 
-const Tetraminoes = [LTetramino, RTetratmino, TTetratmino, ZTetramino, STetramino, OTetramino, ITetramino]
+const tetraminoes = [LTetramino, RTetratmino, TTetratmino, ZTetramino, STetramino, OTetramino, ITetramino]
 
 //Spawn position
 let currentPosition = 4
@@ -72,8 +72,8 @@ let currentPosition = 4
 let currentRotation = 0
 
 //randolmly select Tetramino
-let random = Math.floor(Math.random()*Tetraminoes.length)
-let currentPiece = Tetraminoes[random][currentRotation]
+let random = Math.floor(Math.random()*tetraminoes.length)
+let currentPiece = tetraminoes[random][currentRotation]
 
 //draw Tetramino as a map to CSS style.
 function draw(){
@@ -143,7 +143,7 @@ function leftSide(){
 //
 // // Scoring
 //
-// function scoreUp(){
+// function completedLine(){
 //   // console.log("current Postion is" + currentPosition)
 //   let checkIndex = currentPosition - currentPosition%width
 //   // console.log("check index is " + checkIndex)
@@ -160,7 +160,7 @@ function leftSide(){
 //
 // }
 
-function scoreUp(){
+function completedLine(){
   // let checkIndex = currentPosition - currentPosition%width
   // for (i=checkIndex; (i < width*height) || (i < (checkIndex + 6*width)); i+=width){
   let moveScore = 0
@@ -171,11 +171,12 @@ function scoreUp(){
     }
 
     if(row.every(index => squares[index].classList.contains('taken'))){
-      moveScore += 1
-      row.forEach(index=>{
+        moveScore += 1
+        row.forEach(index=>{
         squares[index].classList.remove('taken')
         squares[index].classList.remove('tetramino')
         squares[index].style.backgroundColor=''
+
       })
       const squaresRemoved = squares.splice(i, width)
       squares = squaresRemoved.concat(squares)
@@ -183,13 +184,13 @@ function scoreUp(){
 
     }
   }
-  score = score + moveScore ** 2
-  console.log("score is " + score)
+  score = score + moveScore**2*10
+
 }
 
 function gameOver(){
-  random = Math.floor(Math.random()*Tetraminoes.length)
-  currentPiece = Tetraminoes[random][currentRotation]
+  random = Math.floor(Math.random()*tetraminoes.length)
+  currentPiece = tetraminoes[random][currentRotation]
   currentPosition = 4
   if(currentPiece.some( index => squares[currentPosition + index].classList.contains('taken'))){
     clearInterval(gameTimer)
@@ -210,11 +211,13 @@ function freeze(){
 
     currentPiece.forEach(index => squares[currentPosition + index].classList.add('taken'))
 
-    scoreUp()
+    completedLine()
     //spawn a new Tetramino
+    score+=1
+    displayScore.innerHTML = score
     return gameOver()
-    // random = Math.floor(Math.random()*Tetraminoes.length)
-    // currentPiece = Tetraminoes[random][currentRotation]
+    // random = Math.floor(Math.random()*tetraminoes.length)
+    // currentPiece = tetraminoes[random][currentRotation]
     // currentPosition = 4
   }
 }
@@ -272,7 +275,7 @@ function moveRight() {
 //   currentRotation++
 //   currentRotation%=4
 //   undraw()
-//   currentPiece = Tetraminoes[random][currentRotation]
+//   currentPiece = tetraminoes[random][currentRotation]
 //   //N.B. This might introduce 'wall kick' behaviour.
 //   if(rightCheck()){
 //     while(rightCheck()) {
@@ -295,7 +298,7 @@ function rotate(){
   currentRotation++
   currentRotation%=4
   undraw()
-  currentPiece = Tetraminoes[random][currentRotation]
+  currentPiece = tetraminoes[random][currentRotation]
   if(rightCheck() && leftCheck() ){
     currentRotation--
     currentRotation+=width
@@ -323,5 +326,7 @@ function control(key){
 }
 
 document.addEventListener('keydown', control)
+
+
 
 })
