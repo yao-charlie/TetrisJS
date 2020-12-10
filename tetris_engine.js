@@ -10,6 +10,7 @@ const width = 10
 const height = 20
 var gameTimer = null
 var score = 0
+var lost = false
 
 
 //tetraminoes
@@ -223,7 +224,9 @@ function gameOver(){
   if(currentPiece.some( index => squares[currentPosition + index].classList.contains('taken'))){
     clearInterval(gameTimer)
     console.log("Game Over")
-    return true
+    lost = true
+    gameTimer = null
+    return lost
   }
   else {
     draw()
@@ -363,6 +366,17 @@ startButton.addEventListener('click', ()=>{
   }
 
   else{
+    if(lost){
+      for(i=0; i<height*width; i++){
+        squares[i].classList.remove("taken")
+        squares[i].classList.remove("tetramino")
+      }
+      score = 0
+      lost = false
+      displaylastScored.innerHTML = 0
+      displayScore.innerHTML = 0
+    }
+
     draw();
     gameTimer = setInterval(moveDown, interval)
     drawNextPiece()
