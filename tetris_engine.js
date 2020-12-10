@@ -94,8 +94,8 @@ draw()
 
 // tetramino falling
 
-var interval = 500 //timer in ms to start
-var timer = setInterval(moveDown, interval)
+var interval = 500 //gameTimer in ms to start
+var gameTimer = setInterval(moveDown, interval)
 
 
 
@@ -187,7 +187,20 @@ function scoreUp(){
   console.log("score is " + score)
 }
 
-
+function gameOver(){
+  random = Math.floor(Math.random()*Tetraminoes.length)
+  currentPiece = Tetraminoes[random][currentRotation]
+  currentPosition = 4
+  if(currentPiece.some( index => squares[currentPosition + index].classList.contains('taken'))){
+    clearInterval(gameTimer)
+    console.log("Game Over")
+    return true
+  }
+  else {
+    draw()
+    return false
+  }
+}
 
 
 
@@ -199,11 +212,10 @@ function freeze(){
 
     scoreUp()
     //spawn a new Tetramino
-    random = Math.floor(Math.random()*Tetraminoes.length)
-    currentPiece = Tetraminoes[random][currentRotation]
-    currentPosition = 4
-    draw()
-
+    return gameOver()
+    // random = Math.floor(Math.random()*Tetraminoes.length)
+    // currentPiece = Tetraminoes[random][currentRotation]
+    // currentPosition = 4
   }
 }
 
@@ -227,10 +239,11 @@ function freeze(){
 function moveDown(){
   document.removeEventListener('keydown',control)
   if(freezeCheck()){
-    clearInterval(timer)
+    clearInterval(gameTimer)
     setTimeout(()=>{
-      freeze()
-      timer = setInterval(moveDown,interval)
+      if(!freeze()) gameTimer = setInterval(moveDown,interval)
+
+
     },interval*2) //times 2 for more 'natural' feel
     return
   }
