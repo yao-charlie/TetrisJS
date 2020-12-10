@@ -6,6 +6,7 @@ let nextSquares = Array.from(document.querySelectorAll('.nextTetra div'))
 const displayScore = document.querySelector('#score')
 const startButton = document.querySelector('#start__button')
 const displaylastScored = document.querySelector('#last__score')
+const gameOverDisplay = document.querySelector('#game__over')
 const width = 10
 const height = 20
 var gameTimer = null
@@ -224,6 +225,8 @@ function gameOver(){
   if(currentPiece.some( index => squares[currentPosition + index].classList.contains('taken'))){
     clearInterval(gameTimer)
     console.log("Game Over")
+    gameOverDisplay.style.display = "block"
+
     lost = true
     gameTimer = null
     return lost
@@ -375,6 +378,7 @@ startButton.addEventListener('click', ()=>{
       lost = false
       displaylastScored.innerHTML = 0
       displayScore.innerHTML = 0
+      gameOverDisplay.style.display = "none"
     }
 
     draw();
