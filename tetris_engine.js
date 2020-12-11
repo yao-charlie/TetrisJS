@@ -81,7 +81,7 @@ var random = nextRandom
 let currentPiece = null
 let nextPiece = tetraminoes[nextRandom][currentRotation]
 // currentPiece = nextPiece
-assignNextPiece()
+
 //
 // var nextPiece = null
 
@@ -378,14 +378,24 @@ function start(){
       for(i=0; i<height*width; i++){
         squares[i].classList.remove("taken")
         squares[i].classList.remove("tetramino")
+        squares[i].style.backgroundColor=''
+      }
+      for(i=0; i<width*4; i++){
+        nextSquares[i].classList.remove("taken")
+        nextSquares[i].classList.remove("tetramino")
+        nextSquares[i].style.backgroundColor=''
       }
       score = 0
       lost = false
       displaylastScored.innerHTML = 0
       displayScore.innerHTML = 0
       gameOverDisplay.style.display = "none"
+      nextRandom = Math.floor(Math.random()*tetraminoes.length)
+      random = nextRandom
+      nextPiece = tetraminoes[nextRandom][currentRotation]
     }
     document.addEventListener('keydown', control)
+    assignNextPiece()
     draw();
     gameTimer = setInterval(moveDown, interval)
     drawNextPiece()

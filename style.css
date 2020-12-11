@@ -1,3 +1,9 @@
+*,
+*::before,
+*::after{
+  box-sizing: border-box;
+}
+
 .play__area{
   display: grid;
   grid-template-columns: 200px auto;
@@ -25,8 +31,15 @@
 
 .tetramino{
   background-color: blue;
+  border-radius: 5px;
+  border-style: double;
+  border-color: white;
 }
 
+.tetramino div{
+  border-style: double;
+  border-color: white;
+}
 
 .nextTetra{
   width: 200px;
