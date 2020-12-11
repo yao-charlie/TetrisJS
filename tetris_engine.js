@@ -12,7 +12,7 @@ const height = 20
 var gameTimer = null
 var score = 0
 var lost = false
-var interval = 500 //gameTimer in ms to start
+var interval = 5000 //gameTimer in ms to start
 
 
 //tetraminoes
@@ -355,15 +355,20 @@ function control(key){
   if (key.keyCode === 38){
     if(!freezeCheck()) rotate()
   }
+  if (key.keyCode === 32){
+    while(!freezeCheck()) moveDown()
+  }
+
 }
 
-document.addEventListener('keyup', control)
+
 
 startButton.addEventListener('click', ()=>{
 
   if(gameTimer){
     clearInterval(gameTimer)
     gameTimer = null
+    document.removeEventListener('keyup', control)
   }
 
   else{
@@ -378,7 +383,7 @@ startButton.addEventListener('click', ()=>{
       displayScore.innerHTML = 0
       gameOverDisplay.style.display = "none"
     }
-
+    document.addEventListener('keyup', control)
     draw();
     gameTimer = setInterval(moveDown, interval)
     drawNextPiece()
