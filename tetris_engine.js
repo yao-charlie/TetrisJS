@@ -20,7 +20,6 @@ var interval = 5000 //gameTimer in ms to start
 
 //TODO: Check centre of rotation issues for L, R, T
 const LTetramino = [
-
     [2, width, width+1, width+2],
     [1, width+1, width*2+1, width*2+2],
     [width, width+1, width+2, width*2],
@@ -60,9 +59,9 @@ const OTetramino = [
     [0,1,width, width+1]
   ]
 const ITetramino = [
-    [width*2, width*2+1, width*2+2, width*2+3],
+    [width, width+1, width+2, width+3],
     [2, width+2, width*2+2, width*3+2],
-    [width*3, width*3+1, width*3+2, width*3+3],
+    [width*2, width*2+1, width*2+2, width*2+3],
     [1, width+1, width*2+1, width*3+1]
   ]
 const tetraminoes = [LTetramino, RTetratmino, TTetratmino, ZTetramino, STetramino, OTetramino, ITetramino]
@@ -368,7 +367,7 @@ startButton.addEventListener('click', ()=>{
   if(gameTimer){
     clearInterval(gameTimer)
     gameTimer = null
-    document.removeEventListener('keyup', control)
+    document.removeEventListener('keydown', control)
   }
 
   else{
@@ -383,7 +382,7 @@ startButton.addEventListener('click', ()=>{
       displayScore.innerHTML = 0
       gameOverDisplay.style.display = "none"
     }
-    document.addEventListener('keyup', control)
+    document.addEventListener('keydown', control)
     draw();
     gameTimer = setInterval(moveDown, interval)
     drawNextPiece()
