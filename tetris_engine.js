@@ -9,62 +9,62 @@ const displaylastScored = document.querySelector('#last__score')
 const gameOverDisplay = document.querySelector('#game__over')
 const width = 10
 const height = 20
+const colours = ['teal', 'blue', 'orange', 'yellow', 'green', 'purple', 'red']
 var gameTimer = null
 var score = 0
 var lost = false
-var interval = 5000 //gameTimer in ms to start
+var interval = 500 //gameTimer in ms to start
 
 
 //tetraminoes
 // N.B. - linear algebra could be used to rotate matricies instead
 
 //TODO: Check centre of rotation issues for L, R, T
-const LTetramino = [
-    [2, width, width+1, width+2],
-    [1, width+1, width*2+1, width*2+2],
-    [width, width+1, width+2, width*2],
-    [0, 1, width+1, width*2+1]
-]
-//'CW' L
-const RTetratmino = [
-    [0, width, width+1, width+2],
-    [1, 2, width+1, width*2+1],
-    [width, width+1, width+2, width*2+2],
-    [1, width+1, width*2+1, width*2]
 
-    // [width, width+1, width]
-  ]
-const TTetratmino = [
-    [1, width, width +1, width+2],
-    [1, width +1, width +2, width*2+1],
-    [width, width+1, width+2, width*2+1],
-    [1, width, width +1, width*2+1]
-  ]
-const ZTetramino = [
-    [0, 1, width+1, width+2],
-    [2, width+1, width+2, width*2+1],
-    [width, width+1, width*2+1, width*2+2],
-    [1, width, width+1, width*2]
-  ]
-const STetramino = [
-    [1, 2, width, width+1],
-    [1, width+1, width+2, width*2+2],
-    [width+1, width+2, width*2, width*2+1],
-    [0, width, width+1, width*2+1]
-  ]
-const OTetramino = [
-    [0,1,width, width+1],
-    [0,1,width, width+1],
-    [0,1,width, width+1],
-    [0,1,width, width+1]
-  ]
-const ITetramino = [
+const iTetramino = [
     [width, width+1, width+2, width+3],
     [2, width+2, width*2+2, width*3+2],
     [width*2, width*2+1, width*2+2, width*2+3],
     [1, width+1, width*2+1, width*3+1]
   ]
-const tetraminoes = [LTetramino, RTetratmino, TTetratmino, ZTetramino, STetramino, OTetramino, ITetramino]
+const jTetratmino = [
+    [0, width, width+1, width+2],
+    [1, 2, width+1, width*2+1],
+    [width, width+1, width+2, width*2+2],
+    [1, width+1, width*2+1, width*2]
+  ]
+const lTetramino = [
+    [2, width, width+1, width+2],
+    [1, width+1, width*2+1, width*2+2],
+    [width, width+1, width+2, width*2],
+    [0, 1, width+1, width*2+1]
+]
+const oTetramino = [
+    [0,1,width, width+1],
+    [0,1,width, width+1],
+    [0,1,width, width+1],
+    [0,1,width, width+1]
+  ]
+const sTetramino = [
+    [1, 2, width, width+1],
+    [1, width+1, width+2, width*2+2],
+    [width+1, width+2, width*2, width*2+1],
+    [0, width, width+1, width*2+1]
+  ]
+const tTetratmino = [
+    [1, width, width +1, width+2],
+    [1, width +1, width +2, width*2+1],
+    [width, width+1, width+2, width*2+1],
+    [1, width, width +1, width*2+1]
+  ]
+const zTetramino = [
+    [0, 1, width+1, width+2],
+    [2, width+1, width+2, width*2+1],
+    [width, width+1, width*2+1, width*2+2],
+    [1, width, width+1, width*2]
+  ]
+
+const tetraminoes = [iTetramino, jTetratmino, lTetramino, oTetramino, sTetramino, tTetratmino, zTetramino]
 
 const nextRotation = 0
 //Spawn position
@@ -95,16 +95,26 @@ function assignNextPiece(){
 }
 
 function drawNextPiece(){
-if(gameTimer){nextPiece.forEach((index)=>{nextSquares[index].classList.add('tetramino')})}
+if(gameTimer){
+  nextPiece.forEach((index)=>{
+    nextSquares[index].classList.add('tetramino')
+    nextSquares[index].style.backgroundColor = colours[nextRandom]
+  })
+
+}
 }
 function undrawNextPiece(){
-  nextPiece.forEach((index)=>{nextSquares[index].classList.remove('tetramino')})
+  nextPiece.forEach((index)=>{
+    nextSquares[index].classList.remove('tetramino')
+    nextSquares[index].style.backgroundColor = ''
+  })
 }
 
 //draw Tetramino as a map to CSS style.
 function draw(){
   currentPiece.forEach(index =>{
     squares[currentPosition+index].classList.add('tetramino')
+    squares[currentPosition+index].style.backgroundColor = colours[random]
   })
 }
 
@@ -112,16 +122,9 @@ function draw(){
 function undraw(){
   currentPiece.forEach(index=>{
     squares[currentPosition+index].classList.remove('tetramino')
+    squares[currentPosition+index].style.backgroundColor = ''
   })
 }
-
-//initialize
-
-
-// tetramino falling
-
-
-
 
 
 //Collision Detection
@@ -323,6 +326,7 @@ function moveRight() {
 //   draw()
 // }
 
+
 //no kick
 function rotate(){
   placeholderPiece = currentPiece
@@ -361,9 +365,8 @@ function control(key){
 }
 
 
-
-startButton.addEventListener('click', ()=>{
-
+function start(){
+  document.getElementById("start__button").blur()
   if(gameTimer){
     clearInterval(gameTimer)
     gameTimer = null
@@ -387,6 +390,15 @@ startButton.addEventListener('click', ()=>{
     gameTimer = setInterval(moveDown, interval)
     drawNextPiece()
   }
-})
+}
+
+// function startEnter(key){
+//   if(key.keyCode === 13){
+//     start()
+//   }
+// }
+
+startButton.addEventListener('mousedown', start)
+// document.addEventListener('keydown', startEnter)
 
 })
