@@ -4,10 +4,31 @@
   box-sizing: border-box;
 }
 
-.play__area{
-  display: grid;
-  grid-template-columns: 200px auto;
+
+.game__area{
+  text-align: center;
+
 }
+
+
+.game__area *{
+
+margin-left: auto;
+margin-right: auto;
+
+}
+
+
+
+.play__area{
+  padding-top: 1em;
+  display: flex;
+  max-width: 400px;
+  grid-template-columns: 200px auto;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .play__area div{
 
 }
