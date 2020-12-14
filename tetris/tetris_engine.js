@@ -9,7 +9,7 @@ const displaylastScored = document.querySelector('#last__score')
 const gameOverDisplay = document.querySelector('#game__over')
 const width = 10
 const height = 20
-const colours = ['teal', 'blue', 'orange', 'yellow', 'green', 'purple', 'red']
+const colours = ['cyan', 'dodgerblue', 'orange', 'yellow', 'chartreuse', 'magenta', 'crimson']
 var gameTimer = null
 var score = 0
 var lost = true
@@ -97,16 +97,17 @@ function assignNextPiece(){
 function drawNextPiece(){
 if(gameTimer){
   nextPiece.forEach((index)=>{
-    nextSquares[index].classList.add('tetramino')
-    nextSquares[index].style.backgroundColor = colours[nextRandom]
+    nextSquares[index+1].classList.add('tetramino')
+    nextSquares[index+1].style.backgroundColor = colours[nextRandom]
+    nextSquares[index+1].style.borderColor = colours[nextRandom]
   })
 
 }
 }
 function undrawNextPiece(){
   nextPiece.forEach((index)=>{
-    nextSquares[index].classList.remove('tetramino')
-    nextSquares[index].style.backgroundColor = ''
+    nextSquares[index+1].classList.remove('tetramino')
+    nextSquares[index+1].style.backgroundColor = ''
   })
 }
 
@@ -115,6 +116,7 @@ function draw(){
   currentPiece.forEach(index =>{
     squares[currentPosition+index].classList.add('tetramino')
     squares[currentPosition+index].style.backgroundColor = colours[random]
+    squares[currentPosition+index].style.borderColor = colours[random]
   })
 }
 

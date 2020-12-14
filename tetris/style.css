@@ -5,9 +5,17 @@
 }
 
 
+
+
+.score__title{
+  /* padding-top: .5em; */
+  padding-bottom: .5em;
+}
+
 .game__area{
   text-align: center;
-
+  padding-top: 75px;
+  padding-bottom: 1em;
 }
 
 
@@ -18,7 +26,10 @@ margin-right: auto;
 
 }
 
-
+#game__over{
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
 
 .play__area{
   padding-top: 1em;
@@ -29,16 +40,13 @@ margin-right: auto;
   margin-right: auto;
 }
 
-.play__area div{
-
-}
 
 .grid {
   width: 200px;
   height: 400px;
   display: flex;
   flex-wrap: wrap;
-  background-color: black;
+  background-color: var(--clr-dark);
 }
 
 
@@ -51,15 +59,14 @@ margin-right: auto;
 
 
 .tetramino{
-  background-color: blue;
+  /* background-color: blue; */
   border-radius: 5px;
-  border-style: double;
+  border-style: outset;
   border-color: white;
 }
 
 .tetramino div{
-  border-style: double;
-  border-color: white;
+
 }
 
 .nextTetra{

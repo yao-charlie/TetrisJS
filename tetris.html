@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang= "en">
+	<head>
+		<meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+		<title>Charlie Yao</title>
+		<script src="./tetris/tetris_engine.js"></script>
+		<link href="style_sheet.css" rel="stylesheet" type="text/css"/>
+		<link rel = "stylesheet" href="./tetris/style.css"></link>
+		<script src="https://kit.fontawesome.com/020c5d2908.js" crossorigin="anonymous"></script>
+	</head>
+
+
+	<body>
+	<div id="page-container">
+	<div id="content-wrap">
+		<header>
+			<div id = "common__header"></div>
+			<script src="scripts\common_header.js"></script>
+		</header>
+		<main>
+
+<!-- Contact info lightbox -->
+			<div id = 'contact__content__lightbox' class = lightBox onclick="closeLBox('contact__content__lightbox')">
+				<div class = "contact__lightBox__container lightBox__container">
+					<div class = "lightBox__container__window intro__contact__info__window">
+						<img class = "intro__contact__info" src="img\contact.jpg" alt = "<firstname> at my domain.; <Canada>-<Original Vancouver>-376-5647"/>
+					</div>
+				</div>
+			</div>
+
+
+
+			<div class = "game__area">
+			  <h3 class = "score__title"> Score: <span id = "score"> 0 </span> </h3>
+			  <h3 class = "score__title"> Last Scored: <span id = "last__score"> 0 </span> </h3>
+			  <button id="start__button" class="btn"> Start/Pause </button>
+
+			  <div class = "play__area">
+			    <div id = "tetris__grid" class = "grid"></div>
+			    <div id = "next__grid" class = "nextTetra"></div>
+			  </div>
+
+			  <h3 id="game__over" class = "score__title" style="display: none"> Game Over! </h3>
+			</div>
+
+
+
+
+		</main>
+<!-- Footer -->
+		<footer class="footer">
+			<div id = "common__footer"></div>
+			<script src="scripts\common_footer.js"></script>
+		</footer>
+
+
+
+		<script src="scripts\hamburger.js"></script>
+		<script src=".\tetris\tetris_grid.js"></script>
+		<!-- Needed for contact info lightbox in footer-->
+		<script src="scripts\lightbox.js"></script>
+	</div>
+	</div>
+	</body>
+</html>
