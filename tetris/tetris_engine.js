@@ -12,7 +12,7 @@ const height = 20
 const colours = ['teal', 'blue', 'orange', 'yellow', 'green', 'purple', 'red']
 var gameTimer = null
 var score = 0
-var lost = false
+var lost = true
 var interval = 500 //gameTimer in ms to start
 
 
@@ -393,10 +393,12 @@ function start(){
       nextRandom = Math.floor(Math.random()*tetraminoes.length)
       random = nextRandom
       nextPiece = tetraminoes[nextRandom][currentRotation]
+      assignNextPiece()
+      draw();
     }
     document.addEventListener('keydown', control)
-    assignNextPiece()
-    draw();
+    // assignNextPiece()
+    // draw();
     gameTimer = setInterval(moveDown, interval)
     drawNextPiece()
   }
