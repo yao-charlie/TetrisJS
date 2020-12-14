@@ -226,7 +226,7 @@ function gameOver(){
   if(currentPiece.some( index => squares[currentPosition + index].classList.contains('taken'))){
     clearInterval(gameTimer)
     gameOverDisplay.style.display = "block"
-
+    document.removeEventListener('keydown', control)
     lost = true
     gameTimer = null
     return lost
@@ -281,7 +281,7 @@ function moveDown(){
       if(!freeze()) gameTimer = setInterval(moveDown,interval)
 
 
-    },interval*2) //times 2 for more 'natural' feel
+    },interval) //times 2 for more 'natural' feel - temp removed
     return
   }
   undraw()
